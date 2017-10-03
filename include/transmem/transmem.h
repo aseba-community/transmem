@@ -149,9 +149,9 @@ public:
     TransMem(DurationMilliSec storageTimeInMS, const double defaultLinkConfidence = 1.,
              const DoubleToDoubleFunction distanceToEntryMapping = [](double x) {return x;}, DurationMilliSec intervalBestLinkCacheInvalidationInMS = DurationMilliSec{250})
     : storageTimeInMS(storageTimeInMS)
+    , intervalBestLinkCacheInvalidationInMS(intervalBestLinkCacheInvalidationInMS)
     , defaultLinkConfidence(defaultLinkConfidence)
     , distanceToEntryMapping(distanceToEntryMapping)
-    , intervalBestLinkCacheInvalidationInMS(intervalBestLinkCacheInvalidationInMS)
     {
         if(storageTimeInMS < DurationMilliSec(1))
             storageTimeInMS = DurationMilliSec(1);
@@ -342,11 +342,11 @@ protected:
     mutable std::unordered_map< std::string, Path > cachedPaths;
     mutable std::unordered_map< std::string, std::pair< Timestamp, StampedTransformationWithConfidence > > cachedBestTransformations;
 
-    /*! Best link result in cache is invalidated if all links along the path where updated within a timespan specified by this parameter. */
-    const DurationMilliSec intervalBestLinkCacheInvalidationInMS {250};
-
     /*! Duration how long transformation entries are stored on a link. */
     const DurationMilliSec storageTimeInMS {1000};
+
+    /*! Best link result in cache is invalidated if all links along the path where updated within a timespan specified by this parameter. */
+    const DurationMilliSec intervalBestLinkCacheInvalidationInMS {250};
 
     /*! \see \ref Link-Confidence "Link confidence". */
     const double defaultLinkConfidence  {1.};
